@@ -8,7 +8,9 @@ const helmet      = require('helmet');
 const authRoutes  = require('./routes/auth');
 const userRoutes  = require('./routes/users');
 const classRoutes = require('./routes/classes');
-
+const uploadsRouter = require('./routes/uploads')
+const asyncHandler = require('express-async-handler');
+const authenticateToken= require('./middleware/auth');
 const app = express();
 
 // 1) Security & parsing
@@ -40,6 +42,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api',       authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/classes', classRoutes);
+app.use('/api', authenticateToken, uploadsRouter);
 
 // 5) Global error handler
 app.use((err, req, res, next) => {
