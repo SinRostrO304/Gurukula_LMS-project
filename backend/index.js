@@ -30,13 +30,10 @@ app.use(express.json());
 // 2) Global CORS (applies to static files & APIs)
 app.use(
   cors({
-    origin:      'http://localhost:3000',  // your React app’s origin
+    origin:      'https://gurukulalms.vercel.app',  // your React app’s origin
     credentials: true,
   })
 );
-
-// 3) Serve uploads statically (now CORS applies here too)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // 4) Mount API routes (CORS is already in effect)
 app.use('/api',       authRoutes);

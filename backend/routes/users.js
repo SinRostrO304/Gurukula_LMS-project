@@ -8,6 +8,8 @@ const path    = require('path');         // ← for disk destination
 const multer  = require('multer');       // ← import multer
 const { sendResetEmail } = require('../utils/mailer');
 const asyncHandler = require('../utils/asyncHandler');
+const { uploadFile } = require('../utils/storage');
+
 const {
   updateSchema,
   forgotSchema,
@@ -158,7 +160,11 @@ router.put(
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    const pictureUrl = `${process.env.SERVER_URL}/uploads/${req.file.filename}`;
+    const pictureUrl = await uploadFile(
+    req.file.buffer,
+    req.file.originalname,
+    req.file.mimetype
+    );
     debug('pictureUrl', pictureUrl);
 
     // UPDATE with RETURNING so we can inspect rowCount & new value
