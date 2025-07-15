@@ -26,4 +26,5 @@ yarn-error.log*
 /backend/uploads/
 
 /backend/node_modules/
+/node_modules//backend/node_modules/
 /node_modules/
