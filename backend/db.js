@@ -2,12 +2,14 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+if (!process.env.DATABASE_URL) {
+  console.error('Missing DATABASE_URL!');
+  process.exit(1);
+}
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  // If using SSL locally via Docker Desktop you can omit ssl
-  ssl: process.env.NODE_ENV === 'production' 
-    ? { rejectUnauthorized: false }
-    : false,
+  ssl: { rejectUnauthorized: false }
 });
 
 module.exports = pool;

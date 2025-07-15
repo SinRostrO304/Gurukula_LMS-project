@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "migrate":     "node-pg-migrate up -c db-migrate.config.js",
-    "migrate:down":"node-pg-migrate down -c db-migrate.config.js",
+    "migrate": "node-pg-migrate up -c db-migrate.config.js",
+    "migrate:down": "node-pg-migrate down -c db-migrate.config.js",
     "migrate:create": "node-pg-migrate create -c db-migrate.config.js"
   },
   "keywords": [],
@@ -28,7 +28,7 @@
     "multer": "^2.0.1",
     "multer-s3": "^3.0.1",
     "nodemailer": "^7.0.3",
-    "pg": "^8.16.0",
+    "pg": "^8.16.3",
     "react-easy-crop": "^5.4.2",
     "zxcvbn": "^4.4.2"
   },
