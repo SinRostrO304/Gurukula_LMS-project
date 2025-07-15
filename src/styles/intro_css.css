@@ -1,0 +1,128 @@
+/* src/styles/intro_css.css */
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Gradient Banner */
+.gradient-banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #f2bcf0, #a9e9fd);
+  min-height: 50vh;
+  padding: 2rem 0;
+  position: relative;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  font-weight: bold;
+}
+.navigation .button {
+  margin-left: .5rem;
+  padding: .5rem 1rem;
+  border: none;
+  border-radius: 15px;
+  font-size: clamp(.875rem, 2vw, 1rem);
+  cursor: pointer;
+}
+.login { background: #a9e9fd }
+.signup { background: #0463c2; color: #fff }
+
+.catchphrase {
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: #000;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+/* Content Sections */
+.content-sections {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+/* White Box Section */
+.white-box {
+  flex: 1 1 280px;
+  max-width: 400px;
+  background: #fff4fd;
+  border-radius: 10px;
+  box-shadow: 10px 10px 25px rgba(207,210,246,0.6);
+  padding: 1.5rem;
+  transition: transform .3s ease;
+}
+.white-box:hover {
+  transform: scale(1.05);
+}
+.box-text {
+  font-size: clamp(1.5rem,4vw,3rem);
+  color: #849bf7;
+  font-family: 'Suranna', serif;
+  margin: 1rem 0;
+}
+.tagline {
+  font-size: clamp(1rem,2.5vw,1.25rem);
+  font-family: 'Tilt Warp', sans-serif;
+}
+
+/* Introduction Text */
+.intro-text {
+  flex: 1 1 280px;
+  max-width: 600px;
+  font-size: clamp(1rem,2.5vw,1.5rem);
+  line-height: 1.4;
+  color: #000;
+}
+
+/* Call-to-Action Button */
+.cta-button {
+  width: 100%;
+  text-align: center;
+}
+.connect-button {
+  padding: 1rem 2rem;
+  font-size: clamp(1rem,2.5vw,1.25rem);
+  background: #8be3ff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  color: #000;
+}
+
+@media (max-width: 600px) {
+  .gradient-banner {
+    min-height: 40vh;
+    padding: 1.5rem 0;
+  }
+}
