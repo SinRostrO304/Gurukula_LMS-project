@@ -27,6 +27,10 @@ app.use(
 );
 app.use(express.json());
 
+app.use(
+  helmet.crossOriginOpenerPolicy({ policy: 'same-origin-allow-popups' })
+)
+
 // 2) Global CORS (applies to static files & APIs)
 app.use(
   cors({
