@@ -32,6 +32,7 @@
     "nodemailer": "^7.0.3",
     "pg": "^8.16.3",
     "react-easy-crop": "^5.4.2",
+    "serverless-http": "^3.2.0",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
