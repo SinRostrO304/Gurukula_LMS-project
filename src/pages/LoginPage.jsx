@@ -162,7 +162,7 @@ export default function LoginPage() {
       'One special character',
     ].map((text) => (
       <ListItem key={text} disableGutters>
-        <ListItemIcon><Check fontSize="small" /></ListItemIcon>
+        <ListItemIcon><CheckIcon fontSize="small" /></ListItemIcon>
         <ListItemText primary={text} />
       </ListItem>
     ))}
