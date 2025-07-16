@@ -1,7 +1,9 @@
 // src/pages/Dashboard.jsx
 import React, { useState, useContext, useEffect } from 'react';
-import { Box, CircularProgress, Typography } from '@mui/material';
-import { Routes, Outlet, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { Box, CircularProgress, } from '@mui/material';
+import {  Outlet, useNavigate, useLocation } from 'react-router-dom';
+// import { Box, CircularProgress, Typography } from '@mui/material';
+// import { Routes, Outlet, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import JoinClassDialog from '../components/JoinClassDialog';

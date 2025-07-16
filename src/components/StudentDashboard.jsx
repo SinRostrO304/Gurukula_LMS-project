@@ -17,7 +17,8 @@ import api from '../utils/api'
 import { AuthContext } from '../auth/AuthProvider'
 
 export default function StudentDashboard() {
-  const { token, user } = useContext(AuthContext)
+  const { token } = useContext(AuthContext)
+  // const { token, user } = useContext(AuthContext)
   const navigate = useNavigate()
 
   const [courses, setCourses] = useState(null)

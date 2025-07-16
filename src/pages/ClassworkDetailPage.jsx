@@ -17,7 +17,7 @@ import {
 } from '@mui/material'
 import UploadIcon       from '@mui/icons-material/Upload'
 import DownloadIcon     from '@mui/icons-material/Download'
-import ChatIcon         from '@mui/icons-material/ChatBubbleOutline'
+// import ChatIcon         from '@mui/icons-material/ChatBubbleOutline'
 import SendIcon         from '@mui/icons-material/Send'
 import AttachFileIcon   from '@mui/icons-material/AttachFile'
 
@@ -32,9 +32,9 @@ import api from '../utils/api'
 import { AuthContext } from '../auth/AuthProvider'
 
 // Stub for file storage—replace with real uploader
-async function uploadToStorage(file) {
-  return `/uploads/${file.originalname}`
-}
+// async function uploadToStorage(file) {
+//  return `/uploads/${file.originalname}`
+// }
 
 export default function ClassworkDetailPage() {
   const { id: classId, aid: cwId } = useParams()

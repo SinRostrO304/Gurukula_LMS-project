@@ -15,7 +15,8 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 
 export default function MainContent() {
   const navigate = useNavigate();
-  const { teaching, enrolled, collapsed } = useOutletContext();
+  const { teaching, enrolled } = useOutletContext();
+  // const { teaching, enrolled, collapsed } = useOutletContext();
 
   // show spinner if data still loading
   if (!teaching || !enrolled) {

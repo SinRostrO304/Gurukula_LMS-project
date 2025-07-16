@@ -19,7 +19,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  FormHelperText,
+  // FormHelperText,
 } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
 import MuiCard from '@mui/material/Card'
@@ -27,7 +27,7 @@ import { styled } from '@mui/material/styles'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import AppTheme from '../shared-theme/AppTheme'
 import ColorModeSelect from '../shared-theme/ColorModeSelect'
-import { GoogleIcon, SitemarkIcon } from './components/CustomIcons'
+import { SitemarkIcon } from './components/CustomIcons'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { AuthContext } from '../auth/AuthProvider'
@@ -152,23 +152,6 @@ export default function LoginPage() {
     }
   };
 
-  {isSignup && (
-  <List dense sx={{ mt: 1 }}>
-    {[
-      'At least 8 characters',
-      'One lowercase letter',
-      'One uppercase letter',
-      'One digit',
-      'One special character',
-    ].map((text) => (
-      <ListItem key={text} disableGutters>
-        <ListItemIcon><CheckIcon fontSize="small" /></ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItem>
-    ))}
-  </List>
-  )}
-
   return (
     <AppTheme>
       <ColorModeSelect sx={{ position: 'fixed', top: 16, right: 16 }} />
@@ -252,6 +235,22 @@ export default function LoginPage() {
               {isSignup && (
                 <PasswordStrengthMeter password={formData.password} />
             )}
+            {isSignup && (
+              <List dense sx={{ mt: 1 }}>
+                {[
+                  'At least 8 characters',
+                  'One lowercase letter',
+                  'One uppercase letter',
+                  'One digit',
+                  'One special character',
+                ].map((text) => (
+                  <ListItem key={text} disableGutters>
+                    <ListItemIcon><CheckIcon fontSize="small" /></ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItem>
+                ))}
+              </List>
+              )}
             </FormControl>
 
             {!isSignup && (

@@ -117,12 +117,12 @@ export default function CalendarPage() {
   }, [assignments, selectedClasses, searchTerm])
 
   // Handlers
-  const handleClassToggle = (id) =>
-    setSelectedClasses(prev =>
-      prev.includes(id)
-        ? prev.filter(x=>x!==id)
-        : [...prev, id]
-    )
+  // const handleClassToggle = (id) =>
+  //  setSelectedClasses(prev =>
+  //    prev.includes(id)
+  //      ? prev.filter(x=>x!==id)
+  //      : [...prev, id]
+  //  )
 
   // Render custom event content with icon
   const renderEventContent = (eventInfo) => {

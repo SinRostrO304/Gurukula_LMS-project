@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Grid,
+  // Grid,
   Card,
   CardContent,
   CardActions,
@@ -27,8 +27,8 @@ import {
   List,            
   ListItem,        
   ListItemText,    
-  Divider,
-  stack
+  // Divider,
+  // stack
 } from '@mui/material'
 import ChatIcon   from '@mui/icons-material/Chat'       // public
 import LockIcon   from '@mui/icons-material/Lock'       // private
@@ -36,7 +36,7 @@ import LockIcon   from '@mui/icons-material/Lock'       // private
 import AddIcon           from '@mui/icons-material/Add'
 import AttachFileIcon    from '@mui/icons-material/AttachFile'
 import DeleteIcon        from '@mui/icons-material/Delete'
-import DateRangeIcon     from '@mui/icons-material/DateRange'
+// import DateRangeIcon     from '@mui/icons-material/DateRange'
 import Autocomplete      from '@mui/material/Autocomplete'
 
 import {
@@ -58,7 +58,7 @@ import {
   useSensors
 } from '@dnd-kit/core'
 import {
-  arrayMove,
+  // arrayMove,
   SortableContext,
   useSortable,
   rectSortingStrategy
@@ -171,7 +171,7 @@ export default function ClassworkTab({ classId }) {
       setEditorState(EditorState.createWithContent(convertFromRaw(raw)))
     }
   }
-}, [open, isNew])
+}, [open, isNew, draftKey])
   useEffect(() => {
     if (!open) return
     const id = setTimeout(() => {
@@ -179,7 +179,7 @@ export default function ClassworkTab({ classId }) {
       localStorage.setItem(draftKey, JSON.stringify({ form, raw }))
     }, 2000)
     return () => clearTimeout(id)
-  }, [open, form, editorState])
+  }, [open, form, editorState, draftKey])
 
   // Load assignments with filters
   const load = async () => {
@@ -201,7 +201,7 @@ export default function ClassworkTab({ classId }) {
   }
   useEffect(() => {
     load()
-  }, [classId, token, filterType, searchText, dueRange])
+  }, [classId, token, filterType, searchText, dueRange, load])
 
   // Load students & other classes
   useEffect(() => {
