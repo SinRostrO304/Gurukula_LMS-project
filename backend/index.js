@@ -1,5 +1,14 @@
 // backend/index.js
 const serverless = require('serverless-http');
+
+// ─── LOG EVERY PATTERN THAT PATH-TO-REGEXP SEES ───
+const p2r = require('path-to-regexp');
+const original = p2r;
+require.cache[require.resolve('path-to-regexp')].exports = function (...args) {
+  console.log('📦 Compiling route pattern:', args[0]);
+  return original(...args);
+};
+
 const express    = require('express');
 const cors       = require('cors');
 const helmet     = require('helmet');
