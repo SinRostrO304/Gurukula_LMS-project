@@ -13,6 +13,29 @@ const asyncHandler = require('express-async-handler');
 const authenticateToken= require('./middleware/auth');
 const app = express();
 
+// 1. Define your allowed origin
+const FRONTEND = process.env.APP_BASE_URL;
+
+// 2. Short-circuit all OPTIONS (preflight) requests with CORS headers
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin === FRONTEND) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET,POST,PUT,PATCH,DELETE,OPTIONS'
+    );
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization'
+    );
+  }
+  // If this is a preflight request, stop here:
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
 // 1) Security & parsing
 app.use(
   helmet({
