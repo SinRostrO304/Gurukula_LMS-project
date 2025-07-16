@@ -1,24 +1,5 @@
 // backend/index.js
-// Force Express’s router to use your top-level path-to-regexp
-const Module = require('module');
-const origLoad = Module._load;
-Module._load = function(request, parent, isMain) {
-  if (request === 'router/node_modules/path-to-regexp') {
-    // Redirect nested requires back to your pinned version
-    return origLoad('path-to-regexp', parent, isMain);
-  }
-  return origLoad(request, parent, isMain);
-};
-
 const serverless = require('serverless-http');
-
-// ─── LOG EVERY PATTERN THAT PATH-TO-REGEXP SEES ───
-const p2r = require('path-to-regexp');
-const original = p2r;
-require.cache[require.resolve('path-to-regexp')].exports = function (...args) {
-  console.log('📦 Compiling route pattern:', args[0]);
-  return original(...args);
-};
 
 const express    = require('express');
 const cors       = require('cors');
