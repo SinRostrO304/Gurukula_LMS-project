@@ -14,7 +14,8 @@ async function uploadFile(buffer, filename, mime) {
     .upload(key, buffer, { contentType: mime });
   if (error) throw error;
   // Return the public URL
-  return `https://${process.env.SUPABASE_URL}/storage/v1/object/public/${process.env.SUPABASE_BUCKET}/${data.Key}`;
+  const objectPath = data.path || data.Key;
+  return `https://${process.env.SUPABASE_URL}/storage/v1/object/public/${process.env.SUPABASE_BUCKET}/${objectPath}`;
 }
 
 // For private buckets: generate a signed download URL

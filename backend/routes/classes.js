@@ -5,6 +5,7 @@ const pool          = require('../db');
 const asyncHandler  = require('../utils/asyncHandler');
 const multer        = require('multer');
 const path          = require('path');
+const { uploadFile } = require('../utils/storage');
 
 const router        = express.Router();
 const JWT_SECRET    = process.env.JWT_SECRET;
@@ -24,7 +25,7 @@ function authenticateToken(req, res, next) {
 
 // Multer for cover uploads
 const coverUpload = multer({
-  dest: path.join(__dirname, '../uploads/covers'),
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 },
 }).single('cover');
 
@@ -381,7 +382,31 @@ router.get(
   })
 );
 
-// ------------------------------------------------------------------------------
+/**
+ * POST /api/classes/:id/cover
+ * Upload a cover image to Supabase
+ */
+router.post(
+  '/:id/cover',
+  authenticateToken,
+  coverUpload,
+  asyncHandler(async (req, res) => {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+    // 1) upload buffer to Supabase
+    const url = await uploadFile(
+      req.file.buffer,
+      req.file.originalname,
+      req.file.mimetype
+    );
+    // 2) save to DB
+    const { rows } = await pool.query(
+      `UPDATE classes SET cover_url=$1 WHERE id=$2 RETURNING cover_url`,
+      [url, +req.params.id]
+    );
+    res.json({ coverUrl: rows[0].cover_url });
+  })
+);
+
 // POST /api/classes/:id/invite
 // Send an invitation email (role = 'teacher' or 'student')
 router.post(
@@ -422,7 +447,6 @@ router.post(
   })
 );
 
-// ------------------------------------------------------------------------------
 // POST /api/classes/:id/students/bulk/email
 // Bulk‐send a notification email to selected student IDs
 router.post(
@@ -450,7 +474,6 @@ router.post(
   })
 );
 
-// ------------------------------------------------------------------------------
 // POST /api/classes/:id/students/bulk/remove
 // Bulk‐remove selected student IDs from this class
 router.post(
@@ -471,7 +494,6 @@ router.post(
   })
 );
 
-// ------------------------------------------------------------------------------
 // GET /api/classes/:id/students/:sid/assignments
 // List a single student’s assignments + status
 router.get(
@@ -506,7 +528,6 @@ router.get(
   })
 );
 
-// ------------------------------------------------------------------------------
 // GET /api/classes/:id/students/:sid/assignments/csv
 // Export that same data as a CSV download
 router.get(
@@ -589,7 +610,7 @@ router.get(
 );
 
 // POST new assignment
-const assignUpload = multer({ dest: path.join(__dirname,'../uploads/assign') }).array('files');
+const assignUpload = multer({ storage: multer.memoryStorage() }).array('files');
 router.post(
   '/:id/assignments',
   authenticateToken,
@@ -730,7 +751,6 @@ router.get(
   })
 );
 
-// ------------------------------------------------------------------------------
 // 2) Bulk actions
 router.post(
   '/:id/assignments/bulk',
@@ -767,7 +787,6 @@ router.post(
   })
 );
 
-// ------------------------------------------------------------------------------
 // 3) Draft autosave
 // You’ll need a new `assignment_drafts` table with (class_id, user_id, form jsonb, raw jsonb, updated_at)
 router.post(
@@ -808,7 +827,6 @@ router.get(
   })
 );
 
-// ------------------------------------------------------------------------------
 // 4) Rubric CRUD
 router.post(
   '/:id/assignments/:aid/rubric',
@@ -830,7 +848,6 @@ router.post(
   })
 );
 
-// ------------------------------------------------------------------------------
 // 5) Statistics for progress tile
 router.get(
   '/:id/assignments/:aid/statistics',
@@ -853,7 +870,6 @@ router.get(
   })
 );
 
-// ------------------------------------------------------------------------------
 // 6) Analytics & CSV export
 router.get(
   '/:id/assignments/analytics',
@@ -1260,9 +1276,7 @@ router.post(
   })
 )
 
-// ─────────────────────────────────────────────────────────────────────────────
 // STUDENT CLASSWORK DETAIL + SUBMISSION ENDPOINTS
-
 // 1) Fetch one assignment’s full details
 router.get(
   '/:id/assignments/:aid/details',
@@ -1457,7 +1471,7 @@ router.get(
 );
 
 // 6) Upload student files (and create submission record if needed)
-const submitUpload = multer().array('files');
+const submitUpload = multer({ storage: multer.memoryStorage() }).array('files');
 router.post(
   '/:id/assignments/:aid/submit',
   authenticateToken,
@@ -1480,14 +1494,13 @@ router.post(
     );
     const subId = rows[0].id;
 
-    // store each file
+    // store each file via Supabase
     for (let f of req.files) {
-      // you’d upload to S3 or local disk; for now assume f.buffer + f.originalname
-      const url = await uploadToStorage(f) 
+      const url = await uploadFile(f.buffer, f.originalname, f.mimetype);
       await pool.query(
         `INSERT INTO submission_files
            (submission_id, filename, url)
-         VALUES($1,$2,$3)`,
+         VALUES ($1, $2, $3)`,
         [subId, f.originalname, url]
       );
     }

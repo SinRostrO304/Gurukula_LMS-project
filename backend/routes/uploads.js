@@ -20,7 +20,7 @@ router.post(
 
     // 1) Insert a new submission and get its ID
     const { rows } = await pool.query(
-      `INSERT INTO submissions (assignment_id, student_id, submitted_at)
+      `INSERT INTO submissions (assignment_id, user_id, submitted_at)
          VALUES ($1, $2, NOW())
        RETURNING id`,
       [assignmentId, studentId]

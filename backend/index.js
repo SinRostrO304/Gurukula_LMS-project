@@ -1,8 +1,8 @@
 // backend/index.js
-require('dotenv').config();
-
+// require('dotenv').config();
 const express     = require('express');
-const path        = require('path');
+// const path        = require('path');
+const serverless  = require('serverless-http');
 const cors        = require('cors');
 const helmet      = require('helmet');
 const authRoutes  = require('./routes/auth');
@@ -30,7 +30,7 @@ app.use(express.json());
 // 2) Global CORS (applies to static files & APIs)
 app.use(
   cors({
-    origin:      'https://gurukulalms.vercel.app',  // your React app’s origin
+    origin: process.env.APP_BASE_URL,  // your React app’s origin
     credentials: true,
   })
 );
@@ -47,7 +47,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message || 'Server error' });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//  console.log(`Server listening on ${PORT}`);
+// });
+module.exports = serverless(app);

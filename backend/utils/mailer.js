@@ -1,11 +1,11 @@
 // backend/utils/mailer.js
-const path       = require('path');
+// const path       = require('path');
 const nodemailer = require('nodemailer');
 
 // 1) Load /backend/.env (NOT the root .env)
-require('dotenv').config({
-  path: path.resolve(__dirname, '../.env')
-});
+// require('dotenv').config({
+//  path: path.resolve(__dirname, '../.env')
+// });
 
 // 2) Create your SMTP transporter
 const transporter = nodemailer.createTransport({
