@@ -146,6 +146,23 @@ export default function LoginPage() {
     }
   };
 
+  {isSignup && (
+  <List dense sx={{ mt: 1 }}>
+    {[
+      'At least 8 characters',
+      'One lowercase letter',
+      'One uppercase letter',
+      'One digit',
+      'One special character',
+    ].map((text) => (
+      <ListItem key={text} disableGutters>
+        <ListItemIcon><Check fontSize="small" /></ListItemIcon>
+        <ListItemText primary={text} />
+      </ListItem>
+    ))}
+  </List>
+  )}
+
   return (
     <AppTheme>
       <ColorModeSelect sx={{ position: 'fixed', top: 16, right: 16 }} />
