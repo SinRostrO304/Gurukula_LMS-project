@@ -15,10 +15,12 @@ import {
   IconButton,
   InputAdornment,
   Alert,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
+  Tooltip,
+  TextField,
+  // List,
+  // ListItem,
+  // ListItemIcon,
+  // ListItemText,
   // FormHelperText,
 } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check';
@@ -235,22 +237,46 @@ export default function LoginPage() {
               {isSignup && (
                 <PasswordStrengthMeter password={formData.password} />
             )}
-            {isSignup && (
-              <List dense sx={{ mt: 1 }}>
-                {[
-                  'At least 8 characters',
-                  'One lowercase letter',
-                  'One uppercase letter',
-                  'One digit',
-                  'One special character',
-                ].map((text) => (
-                  <ListItem key={text} disableGutters>
-                    <ListItemIcon><CheckIcon fontSize="small" /></ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                ))}
-              </List>
-              )}
+            <Tooltip
+              placement="right"
+              arrow
+              title={
+                <Box component="ul" sx={{ m: 0, pl: 2 }}>
+                  {[
+                    'At least 8 characters',
+                    'One lowercase letter',
+                    'One uppercase letter',
+                    'One digit',
+                    'One special character',
+                  ].map((rule) => (
+                    <Box component="li" key={rule} sx={{ typography: 'body2' }}>
+                      {rule}
+                    </Box>
+                  ))}
+                </Box>
+              }
+            >
+              <TextField
+                id="password"
+                name="password"
+                type={showPassword ? 'text' : 'password'}
+                required
+                fullWidth
+                value={formData.password}
+                error={!!errors.password}
+                helperText={errors.password}
+                onChange={handleChange}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword(v => !v)} edge="end">
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Tooltip>
             </FormControl>
 
             {!isSignup && (
