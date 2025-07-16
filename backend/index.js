@@ -1,81 +1,59 @@
 // backend/index.js
-// require('dotenv').config();
-const express     = require('express');
-// const path        = require('path');
-const serverless  = require('serverless-http');
-const cors        = require('cors');
-const helmet      = require('helmet');
-const authRoutes  = require('./routes/auth');
-const userRoutes  = require('./routes/users');
+const serverless = require('serverless-http');
+const express    = require('express');
+const cors       = require('cors');
+const helmet     = require('helmet');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
 const classRoutes = require('./routes/classes');
-const uploadsRouter = require('./routes/uploads')
-const asyncHandler = require('express-async-handler');
-const authenticateToken= require('./middleware/auth');
+const uploadsRouter = require('./routes/uploads');
+const authenticateToken = require('./middleware/auth');
+
 const app = express();
 
-// 1. Define your allowed origin
-const FRONTEND = process.env.APP_BASE_URL;
+// 1) CORS (must come before any routes)
+const FRONTEND = process.env.APP_BASE_URL; // e.g. https://gurukulalms.vercel.app
+const corsOptions = {
+  origin:         FRONTEND,
+  credentials:    true,
+  methods:        ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+};
 
-// 2. Short-circuit all OPTIONS (preflight) requests with CORS headers
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (origin === FRONTEND) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader(
-      'Access-Control-Allow-Methods',
-      'GET,POST,PUT,PATCH,DELETE,OPTIONS'
-    );
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'Content-Type, Authorization'
-    );
-  }
-  // If this is a preflight request, stop here:
-  if (req.method === 'OPTIONS') return res.sendStatus(204);
-  next();
-});
+// Answer all preflight requests
+app.options('*', cors(corsOptions));
+// Apply CORS to all requests
+app.use(cors(corsOptions));
 
-// 1) Security & parsing
+// 2) Security & parsing
 app.use(
   helmet({
-    crossOriginResourcePolicy: false,  // turn off the default
-    contentSecurityPolicy:      false, // optional: if CSP conflicts
+    crossOriginResourcePolicy: false,
+    contentSecurityPolicy:      false,
   })
 );
 app.use(
-  helmet.crossOriginResourcePolicy({
-    policy: 'cross-origin',
-  })
+  helmet.crossOriginResourcePolicy({ policy: 'cross-origin' })
 );
+app.use(helmet.crossOriginOpenerPolicy({ policy: 'same-origin-allow-popups' }));
 app.use(express.json());
 
-app.use(
-  helmet.crossOriginOpenerPolicy({ policy: 'same-origin-allow-popups' })
-)
-
-// 2) Global CORS (applies to static files & APIs)
-app.use(
-  cors({
-    origin: process.env.APP_BASE_URL,  // your React app’s origin
-    credentials: true,
-  })
-);
-
-// 4) Mount API routes (CORS is already in effect)
+// 3) API routes
 app.use('/api',       authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api', authenticateToken, uploadsRouter);
 
-// 5) Global error handler
+// 4) Global error handler
 app.use((err, req, res, next) => {
   console.error('GLOBAL ERROR:', err);
+  // In case of error, still send CORS headers
+  if (!res.headersSent) {
+    res.setHeader('Access-Control-Allow-Origin', FRONTEND);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
   res.status(err.status || 500).json({ error: err.message || 'Server error' });
 });
 
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//  console.log(`Server listening on ${PORT}`);
-// });
+// 5) Export as Vercel Serverless Function
 module.exports = serverless(app);
