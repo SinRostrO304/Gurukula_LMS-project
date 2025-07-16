@@ -11,6 +11,13 @@ const authenticateToken = require('./middleware/auth');
 
 const app = express();
 
+// health-check: make sure your function starts up and sees APP_BASE_URL
+app.get('/api/ping', (req, res) => {
+  console.log('💓 PING! APP_BASE_URL=', process.env.APP_BASE_URL);
+  res.json({ ok: true });
+});
+
+
 // 1) CORS (must come before any routes)
 const FRONTEND = process.env.APP_BASE_URL; // e.g. https://gurukulalms.vercel.app
 const corsOptions = {
