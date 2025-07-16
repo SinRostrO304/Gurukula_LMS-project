@@ -1,5 +1,5 @@
 // src/pages/ClassworkTab.jsx
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react'
 import {
   Box,
   Button,
@@ -182,26 +182,29 @@ export default function ClassworkTab({ classId }) {
   }, [open, form, editorState, draftKey])
 
   // Load assignments with filters
-  const load = async () => {
-    const params = {
-      type: filterType || undefined,
-      search: searchText || undefined,
-      dueFrom: dueRange.from?.toISOString(),
-      dueTo: dueRange.to?.toISOString()
-    }
-    const { data } = await api.get(
-      `/classes/${classId}/assignments`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        params
-      }
-    )
-    setAssignments(data)
-    setLoading(false)
+  const load = useCallback(async () => {
+  setLoading(true)
+  const params = {
+    type: filterType || undefined,
+    search: searchText || undefined,
+    dueFrom: dueRange.from?.toISOString(),
+    dueTo: dueRange.to?.toISOString(),
   }
-  useEffect(() => {
-    load()
-  }, [classId, token, filterType, searchText, dueRange, load])
+  const { data } = await api.get(
+    `/classes/${classId}/assignments`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }
+  )
+  setAssignments(data)
+  setLoading(false)
+  }, [classId, token, filterType, searchText, dueRange])
+
+    // Only re-run when `load`’s identity changes
+    useEffect(() => {
+      load()
+    }, [load])
 
   // Load students & other classes
   useEffect(() => {
