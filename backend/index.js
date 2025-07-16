@@ -46,8 +46,8 @@ app.use(helmet.crossOriginOpenerPolicy({ policy: 'same-origin-allow-popups' }));
 app.use(express.json());
 
 // 3) API routes
-app.use('/api',       authRoutes);
-// app.use('/api/users', userRoutes);
+// app.use('/api',       authRoutes);
+app.use('/api/users', userRoutes);
 // app.use('/api/classes', classRoutes);
 // app.use('/api', authenticateToken, uploadsRouter);
 
