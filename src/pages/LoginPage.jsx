@@ -24,6 +24,7 @@ import {
 } from '@mui/material'
 // import CheckIcon from '@mui/icons-material/Check';
 import MuiCard from '@mui/material/Card'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import { styled } from '@mui/material/styles'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import AppTheme from '../shared-theme/AppTheme'
@@ -222,60 +223,51 @@ export default function LoginPage() {
                 }}
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword((v) => !v)}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
+                    <>
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword((v) => !v)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                      {isSignup && (
+                        <InputAdornment position="end">
+                          <Tooltip
+                            placement="right"
+                            arrow
+                            title={
+                              <Box component="ul" sx={{ m: 0, pl: 2 }}>
+                                {[
+                                  'At least 8 characters',
+                                  'One lowercase letter',
+                                  'One uppercase letter',
+                                  'One digit',
+                                  'One special character',
+                                ].map((rule) => (
+                                  <Box
+                                    component="li"
+                                    key={rule}
+                                    sx={{ typography: 'body2' }}
+                                  >
+                                    {rule}
+                                  </Box>
+                                ))}
+                              </Box>
+                            }
+                          >
+                            <InfoOutlinedIcon color="action" />
+                          </Tooltip>
+                        </InputAdornment>
+                      )}
+                    </>
                   ),
                 }}
-              />
+                />
               {isSignup && (
                 <PasswordStrengthMeter password={formData.password} />
             )}
-            <Tooltip
-              placement="right"
-              arrow
-              title={
-                <Box component="ul" sx={{ m: 0, pl: 2 }}>
-                  {[
-                    'At least 8 characters',
-                    'One lowercase letter',
-                    'One uppercase letter',
-                    'One digit',
-                    'One special character',
-                  ].map((rule) => (
-                    <Box component="li" key={rule} sx={{ typography: 'body2' }}>
-                      {rule}
-                    </Box>
-                  ))}
-                </Box>
-              }
-            >
-              <TextField
-                id="password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                required
-                fullWidth
-                value={formData.password}
-                error={!!errors.password}
-                helperText={errors.password}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={() => setShowPassword(v => !v)} edge="end">
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Tooltip>
             </FormControl>
 
             {!isSignup && (
