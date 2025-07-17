@@ -1,6 +1,5 @@
 // backend/index.js
-const serverless = require('serverless-http');
-
+// const serverless = require('serverless-http');
 const express    = require('express');
 const cors       = require('cors');
 const helmet     = require('helmet');
@@ -98,4 +97,5 @@ app.use((err, req, res, next) => {
 });
 
 // 5) Export as Vercel Serverless Function
-module.exports = serverless(app);
+// module.exports = serverless(app);
+module.exports = app;
