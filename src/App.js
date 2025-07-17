@@ -3,7 +3,6 @@ import React from 'react'
 import {
   Routes,
   Route,
-  Navigate,
   useOutletContext
 } from 'react-router-dom'
 
