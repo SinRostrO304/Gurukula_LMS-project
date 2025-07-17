@@ -21,15 +21,8 @@ export default function IntroPage() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const { mode } = React.useContext(ColorModeContext);
 
-  // Navigation items for header / drawer
+  // Only Login & Sign Up in nav
   const navItems = [
-    {
-      label: "Features",
-      action: () =>
-        document
-          .getElementById("features")
-          ?.scrollIntoView({ behavior: "smooth" })
-    },
     {
       label: "Login",
       action: () => navigate("/login?mode=login")
@@ -40,12 +33,10 @@ export default function IntroPage() {
     },
   ];
 
-  // Toggle the mobile drawer
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
 
-  // CTA button under intro
   const handleConnectClick = () => navigate("/login?mode=signup");
 
   return (
@@ -59,7 +50,9 @@ export default function IntroPage() {
           left: 0,
           right: 0,
           bgcolor:
-            mode === "light" ? "#f8fafd" : theme.palette.background.paper,
+            mode === "light"
+              ? "#f8fafd"
+              : theme.palette.background.paper,
           backdropFilter: "blur(8px)",
           zIndex: 1000
         }}
@@ -120,7 +113,7 @@ export default function IntroPage() {
                 <Button
                   key={label}
                   onClick={action}
-                  variant={i < 2 ? "contained" : "text"}
+                  variant="contained"
                   sx={{ ml: i === 0 ? 0 : 1 }}
                 >
                   {label}
@@ -197,7 +190,7 @@ export default function IntroPage() {
             {
               icon: "/icons/video.svg",
               title: "Secure Video & File Sharing",
-              text: "share materials, and keep everything private."
+              text: "Share materials, and keep everything private."
             }
           ].map((f) => (
             <Box key={f.title} sx={{ flex: "1 1 260px", p: 2 }}>
@@ -268,11 +261,11 @@ export default function IntroPage() {
           }}
         >
           {[
-            { label: "Backend",     items: "Node.js, Express, PostgreSQL" },
-            { label: "Frontend",    items: "React, Material-UI" },
-            { label: "Web Server/Storage",    items: "Vercel, Supabase" },
+            { label: "Backend", items: "Node.js, Express, PostgreSQL" },
+            { label: "Frontend", items: "React, Material-UI" },
+            { label: "Web Server/Storage", items: "Vercel, Supabase" },
             { label: "Other Tools", items: "Docker, VSCode, PGAdmin4" },
-            { label: "License",     items: "GPL v3 (Free & Copyleft)" }
+            { label: "License", items: "GPL v3 (Free & Copyleft)" }
           ].map((t) => (
             <Box key={t.label} sx={{ flex: "1 1 220px", p: 2 }}>
               <Typography variant="h6" gutterBottom>
@@ -335,7 +328,7 @@ export default function IntroPage() {
             color: "#000",
             p: 2,
             flex: "1 1 280px"
-          }}
+          }} 
         >
           <Typography
             variant="h5"
