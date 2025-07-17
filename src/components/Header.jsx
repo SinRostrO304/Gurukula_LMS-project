@@ -19,10 +19,12 @@ import { useTheme } from '@mui/material/styles'
 import api      from '../utils/api'
 import { AuthContext } from '../auth/AuthProvider'
 import CropAvatarDialog from './CropAvatarDialog'
+import { ColorModeContext } from '../shared-theme/AppTheme'
 
 export default function Header({ collapsed, onSidebarToggle, onJoinCreate, onNameChange }) {
   const { user, logout, updateUser } = useContext(AuthContext)
   const theme = useTheme()
+  const { mode } = useContext(ColorModeContext)
 
   // 1) Join/Create menu state
   const [joinAnchorEl, setJoinAnchorEl] = useState(null)
@@ -73,7 +75,9 @@ export default function Header({ collapsed, onSidebarToggle, onJoinCreate, onNam
         elevation={0}
         sx={{
           zIndex:        (t) => t.zIndex.drawer + 1,
-          bgcolor:       '#f8fafd',
+          bgcolor: mode === 'light'
+          ? '#f0f0fa'
+          : theme.palette.background.paper,
           boxShadow:     'none',
         }}
       >

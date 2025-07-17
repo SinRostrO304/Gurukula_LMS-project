@@ -14,6 +14,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useTheme } from '@mui/material/styles';
 import { useContext } from 'react';
 import { ColorModeContext } from '../shared-theme/AppTheme';
+import { ColorModeContext } from '../shared-theme/AppTheme';
 
 export default function Sidebar({
   activeSection,
@@ -51,7 +52,9 @@ export default function Sidebar({
           width,
           top: `${headerH}px`,
           height: `calc(100vh - ${headerH}px)`,
-          bgcolor:'#f8fafd',
+          bgcolor: mode === 'light'
+           ? '#f0f0fa'
+           : theme.palette.background.paper,
           borderRight:'none',
           position:'relative'
         }

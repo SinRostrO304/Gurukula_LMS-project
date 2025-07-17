@@ -23,7 +23,6 @@ export default function IntroPage() {
     { label: "Login",    action: () => navigate("/login?mode=login") },
     { label: "Sign Up",  action: () => navigate("/login?mode=signup") },
     { label: "Features", action: () => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" }) },
-    { label: "Docs",     action: () => navigate("/docs") }
   ];
 
   // Drawer toggle for mobile menu
