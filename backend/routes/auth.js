@@ -44,7 +44,7 @@ router.post(
     );
 
     // Send email with rawToken
-    await sendVerificationEmail(email, rawToken);
+    // await sendVerificationEmail(email, rawToken);
 
     res.status(201).json({ message: 'Signup successful—check your email to verify.' });
   })

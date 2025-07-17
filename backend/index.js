@@ -96,6 +96,17 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message || 'Server error' });
 });
 
+app.use((err, req, res, next) => {
+  console.error('🚨 GLOBAL ERROR STACK:\n', err.stack || err);
+  // ensure CORS headers still go out
+  if (!res.headersSent) {
+    res.setHeader('Access-Control-Allow-Origin', FRONTEND);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
+  res.status(err.status || 500).json({ error: err.message || 'Server error' });
+});
+
+
 // 5) Export as Vercel Serverless Function
 // module.exports = serverless(app);
 module.exports = app;
