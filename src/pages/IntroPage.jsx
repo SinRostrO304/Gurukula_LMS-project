@@ -24,14 +24,6 @@ export default function IntroPage() {
   // Navigation items for header / drawer
   const navItems = [
     {
-      label: "Login",
-      action: () => navigate("/login?mode=login")
-    },
-    {
-      label: "Sign Up",
-      action: () => navigate("/login?mode=signup")
-    },
-    {
       label: "Features",
       action: () =>
         document
@@ -39,9 +31,13 @@ export default function IntroPage() {
           ?.scrollIntoView({ behavior: "smooth" })
     },
     {
-      label: "Docs",
-      action: () => navigate("/docs")
-    }
+      label: "Login",
+      action: () => navigate("/login?mode=login")
+    },
+    {
+      label: "Sign Up",
+      action: () => navigate("/login?mode=signup")
+    },
   ];
 
   // Toggle the mobile drawer
@@ -196,12 +192,12 @@ export default function IntroPage() {
             {
               icon: "/icons/gradebook.svg",
               title: "Built-in Grades & Analytics",
-              text: "Automate grading, track progress, and export reports instantly."
+              text: "Grading, track progress, and export reports instantly."
             },
             {
               icon: "/icons/video.svg",
               title: "Secure Video & File Sharing",
-              text: "Host live lessons, share materials, and keep everything private."
+              text: "share materials, and keep everything private."
             }
           ].map((f) => (
             <Box key={f.title} sx={{ flex: "1 1 260px", p: 2 }}>
@@ -274,7 +270,8 @@ export default function IntroPage() {
           {[
             { label: "Backend",     items: "Node.js, Express, PostgreSQL" },
             { label: "Frontend",    items: "React, Material-UI" },
-            { label: "Other Tools", items: "Docker, Cloudflare R2, Vercel" },
+            { label: "Web Server/Storage",    items: "Vercel, Supabase" },
+            { label: "Other Tools", items: "Docker, VSCode, PGAdmin4" },
             { label: "License",     items: "GPL v3 (Free & Copyleft)" }
           ].map((t) => (
             <Box key={t.label} sx={{ flex: "1 1 220px", p: 2 }}>
@@ -345,7 +342,7 @@ export default function IntroPage() {
             align="center"
             gutterBottom
             sx={{
-              fontSize: { xs: "1.1rem", sm: "1.3rem", md: "1.5rem" },
+              fontSize: { xs: "2.1rem", sm: "2.3rem", md: "2.5rem" },
               fontWeight: 500,
               color: "text.primary",
               lineHeight: 1.4
@@ -411,7 +408,7 @@ export default function IntroPage() {
             <Button href="/terms" sx={{ color: "inherit", mr: 2 }}>
               Terms of Service
             </Button>
-            <Button href="https://github.com/your-repo" sx={{ color: "inherit", mr: 2 }}>
+            <Button href="https://github.com/SinRostrO304/Gurukula_LMS-project/" sx={{ color: "inherit", mr: 2 }}>
               GitHub
             </Button>
             <Button href="/contact" sx={{ color: "inherit" }}>
