@@ -30,49 +30,54 @@ export default function ManageClassPage() {
   const { mode } = useContext(ColorModeContext);
   const { id }   = useParams();
 
-  const [tab, setTab]               = useState(0);
+  // -- State Hooks --
+  const [tab, setTab]                   = useState(0);
   const [openSettings, setOpenSettings] = useState(false);
-  const [form, setForm]             = useState({ name: '', section: '' });
-  const [loading, setLoading]       = useState(false);
+  const [form, setForm]                 = useState({ name: '', section: '' });
+  const [loading, setLoading]           = useState(false);
 
-  // Redirect if no valid class ID
+  // -- Load class details when settings dialog opens --
+  useEffect(() => {
+    if (!openSettings) return;
+
+    api.get(`/classes/${id}`)
+      .then(({ data }) => {
+        setForm({
+          name: data.name,
+          section: data.section
+        });
+      })
+      .catch((err) => {
+        console.error('Error fetching class details:', err);
+      });
+  }, [openSettings, id]);
+
+  // -- Redirect if no valid class ID --
   if (!id) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  // Tab switch handler
+  // -- Handlers --
   const handleTabChange = (_e, value) => {
     setTab(value);
   };
 
-  // Navigate to Calendar route
   const handleCalendarClick = () => {
     navigate('/calendar');
   };
 
-  // Open/close settings dialog
-  const handleSettingsClick = () => setOpenSettings(true);
-  const handleSettingsClose = () => setOpenSettings(false);
+  const handleSettingsClick = () => {
+    setOpenSettings(true);
+  };
+  const handleSettingsClose = () => {
+    setOpenSettings(false);
+  };
 
-  // Load class details into form when dialog opens
-  useEffect(() => {
-    if (!openSettings) return;
-    api.get(`/classes/${id}`)
-      .then(({ data }) => {
-        setForm({ name: data.name, section: data.section });
-      })
-      .catch((err) => {
-        console.error('Error loading class details:', err);
-      });
-  }, [openSettings, id]);
-
-  // Form change
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Save updated class
   const handleSave = async () => {
     setLoading(true);
     try {
@@ -80,15 +85,14 @@ export default function ManageClassPage() {
         name: form.name,
         section: form.section
       });
-      setLoading(false);
       setOpenSettings(false);
     } catch (err) {
-      console.error('Error saving class:', err);
+      console.error('Error saving class settings:', err);
+    } finally {
       setLoading(false);
     }
   };
 
-  // Delete class
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this class?')) {
       return;
@@ -96,17 +100,17 @@ export default function ManageClassPage() {
     setLoading(true);
     try {
       await api.delete(`/classes/${id}`);
-      setLoading(false);
       navigate('/dashboard');
     } catch (err) {
       console.error('Error deleting class:', err);
+    } finally {
       setLoading(false);
     }
   };
 
   return (
     <Box>
-      {/* Tabs + Icons Header */}
+      {/* Tabs + Calendar & Settings Icons */}
       <Box
         sx={{
           display: 'flex',
@@ -115,9 +119,10 @@ export default function ManageClassPage() {
           borderColor: 'divider',
           px: 2,
           py: 1,
-          bgcolor: mode === 'light'
-            ? '#f0f0fa'
-            : theme.palette.background.paper
+          bgcolor:
+            mode === 'light'
+              ? '#f0f0fa'
+              : theme.palette.background.paper
         }}
       >
         <Tabs
@@ -209,5 +214,5 @@ export default function ManageClassPage() {
         </DialogActions>
       </Dialog>
     </Box>
-  )
+  );
 }
