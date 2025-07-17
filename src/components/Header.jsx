@@ -85,7 +85,9 @@ export default function Header({ collapsed, onSidebarToggle, onJoinCreate, onNam
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>LMS</Typography>
+          <Typography variant="h6" noWrap color="text.primary">
+            Gurukula
+          </Typography>
           <Box sx={{ flexGrow: 1 }}/>
 
           {/* Join/Create */}

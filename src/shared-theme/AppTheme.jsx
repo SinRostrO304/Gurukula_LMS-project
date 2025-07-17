@@ -3,25 +3,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 
-// 1a) Create a context for mode + setter
+// 1) Create a context for mode + setter
 export const ColorModeContext = React.createContext({
   mode: 'light',
   setMode: () => {},
 });
 
 export default function AppTheme({ children }) {
-  // 1b) Track mode in state
-  const [mode, setMode] = React.useState('light');
+  // 2) Initialize mode from localStorage (or default to 'light')
+  const [mode, setModeRaw] = React.useState(() => {
+    return localStorage.getItem('colorMode') || 'light';
+  });
 
-  // 1c) Memoize theme
+  // 3) Wrap setter so it persists to localStorage
+  const setMode = (newMode) => {
+    localStorage.setItem('colorMode', newMode);
+    setModeRaw(newMode);
+  };
+
+  // 4) Memoize the MUI theme based on `mode`
   const theme = React.useMemo(
     () =>
       createTheme({
         palette: {
           mode,
           background: {
-            default: mode === 'dark' ? '#1e2330' : '#eef1f8', // light tone of rgb(233,238,246)
-            paper:   mode === 'dark' ? '#2a2f3e' : '#fff',
+            default: mode === 'dark' ? '#1e2330' : '#eef1f8',
+            paper:   mode === 'dark' ? '#2a2f3e' : '#ffffff',
           },
         },
       }),

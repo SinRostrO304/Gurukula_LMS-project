@@ -7,6 +7,7 @@ import App from './App';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import './styles/index.css';
 import './styles/intro_css.css';
+import AppTheme from './shared-theme/AppTheme';
 
 import reportWebVitals from './reportWebVitals';
 
@@ -14,13 +15,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-      <AuthProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </AuthProvider>
-    </GoogleOAuthProvider>
+    <AppTheme>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+        <AuthProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AuthProvider>
+      </GoogleOAuthProvider>
+    </AppTheme>
   </React.StrictMode>
 );
 
