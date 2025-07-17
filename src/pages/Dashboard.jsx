@@ -98,7 +98,10 @@ export default function Dashboard() {
           p:3,
           height:`calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
           overflow:'auto',
-          bgcolor: theme.palette.background.paper,
+          bgcolor:
+      mode === 'light'
+        ? theme.palette.background.paper   
+        : theme.palette.background.default,
         })}
       >
         <Outlet context={{ teaching, enrolled, collapsed }}/>
