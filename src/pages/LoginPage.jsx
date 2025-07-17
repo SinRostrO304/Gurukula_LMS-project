@@ -154,7 +154,7 @@ export default function LoginPage() {
   };
 
   return (
-    <AppTheme>
+    <>
       <ColorModeSelect sx={{ position: 'fixed', top: 16, right: 16 }} />
 
       <ContainerStack justifyContent="center" alignItems="center">
@@ -326,6 +326,6 @@ export default function LoginPage() {
           </Box>
         </Card>
       </ContainerStack>
-    </AppTheme>
+    </>
   )
 }

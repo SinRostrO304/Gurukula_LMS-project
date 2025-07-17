@@ -47,8 +47,6 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        {/* default landing → /dashboard */}
-        <Route index              element={<Navigate to="dashboard" replace />} />
 
         {/* inner pages */}
         <Route path="dashboard"   element={<MainContent />} />
