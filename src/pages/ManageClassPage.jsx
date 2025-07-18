@@ -121,7 +121,7 @@ export default function ManageClassPage() {
           py: 1,
           bgcolor:
             mode === 'light'
-              ? '#f0f0f0'
+              ? '#ffffff'
               : theme.palette.background.paper
         }}
       >
